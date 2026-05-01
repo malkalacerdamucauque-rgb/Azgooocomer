@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Azgoooo Comer - Fast Food Ultra Realista</title>
+    <!-- Font Awesome 6 (ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Poppins para aspecto moderno -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f5f2e8;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255,215,150,0.1) 0%, rgba(245,242,232,1) 90%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* container principal */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* cabeçalho realista com efeito vidro */
+        .header {
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 18px 28px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .logo-area h1 {
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFD966, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        .logo-area p {
+            color: #ffdd99;
+            font-size: 0.8rem;
+        }
+        .admin-badge {
+            background: #2c2c2c;
+            padding: 8px 20px;
+            border-radius: 100px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .admin-badge span {
+            color: #ffaa33;
+            font-weight: 500;
+        }
+        .admin-badge button {
+            background: #ff9800;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-badge button:hover {
+            background: #ffb74d;
+            transform: scale(1.02);
+        }
+
+        /* grade de produtos */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        /* card realista com sombra */
+        .product-card {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.25s ease, box-shadow 0.2s;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 40px rgba(0,0,0,0.15);
+        }
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #f0e5d2;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .card-info {
+            padding: 18px;
+        }
+        .product-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .product-price {
+            font-weight: 800;
+            color: #e67e22;
+            font-size: 1.25rem;
+        }
+        .edit-row {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0 8px;
+            flex-wrap: wrap;
+        }
+        .edit-row button, .btn-small {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .edit-row button:hover {
+            background: #ddd;
+        }
+        .btn-add-cart {
+            width: 100%;
+            margin-top: 12px;
+            background: #ff8c42;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-add-cart:hover {
+            background: #f97316;
+            transform: scale(0.98);
+        }
+
+        /* carrinho e pedido lateral */
+        .cart-area {
+            background: white;
+            border-radius: 36px;
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid #ffe1b3;
+        }
+        .cart-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            border-left: 7px solid #ff9800;
+            padding-left: 16px;
+            margin-bottom: 20px;
+        }
+        .cart-items {
+            max-height: 320px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fef7e6;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 60px;
+        }
+        .cart-item-info {
+            flex: 2;
+        }
+        .cart-item-name {
+            font-weight: 600;
+        }
+        .cart-item-price {
+            font-size: 0.8rem;
+            color: #e67e22;
+        }
+        .cart-item-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .remove-item {
+            background: #ffd1c1;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #c0392b;
+        }
+        .obs-field, .phone-field {
+            width: 100%;
+            padding: 14px;
+            border-radius: 60px;
+            border: 1px solid #ddd;
+            margin: 12px 0;
+            font-size: 1rem;
+            background: #fffaf2;
+        }
+        .total {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-align: right;
+            margin: 15px 0;
+            border-top: 2px dashed #ffb347;
+            padding-top: 15px;
+        }
+        .send-order {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .send-order:hover {
+            background: #128C7E;
+        }
+        .empty-cart {
+            text-align: center;
+            color: gray;
+            padding: 20px;
+        }
+
+        /* Modal admin (edição + nova foto) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 48px;
+            padding: 28px;
+            text-align: center;
+        }
+        .modal-content input, .modal-content button {
+            margin: 10px 0;
+            width: 100%;
+            padding: 12px;
+            border-radius: 60px;
+            border: 1px solid #ccc;
+        }
+        .modal-content button {
+            background: #ff9800;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal {
+            background: #555;
+            color: white;
+        }
+        .flex-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .header { flex-direction: column; text-align: center; gap: 12px; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #6b4c2c;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <div class="logo-area">
+            <h1>🍔 AZGOOOO COMER</h1>
+            <p>Sabor que acelera • Fast-food premium</p>
+        </div>
+        <div class="admin-badge">
+            <span><i class="fas fa-lock"></i> Gerente</span>
+            <button id="adminModeBtn"><i class="fas fa-edit"></i> Editar Cardápio (senha)</button>
+        </div>
+    </div>
+
+    <!-- Grade de produtos (dinâmica) -->
+    <div class="menu-grid" id="productsGrid"></div>
+
+    <!-- Área do carrinho + observações + telefone cliente -->
+    <div class="cart-area">
+        <div class="cart-title"><i class="fas fa-shopping-cart"></i> Seu Pedido</div>
+        <div id="cartItemsContainer" class="cart-items"></div>
+        <div>
+            <input type="text" id="customerPhone" class="phone-field" placeholder="📱 Seu número de telemóvel (ex: 84XXXXXXX)" autocomplete="off">
+            <textarea id="orderObservations" class="obs-field" rows="2" placeholder="Observações do pedido (ex: sem cebola, extra queijo...)"></textarea>
+        </div>
+        <div class="total" id="totalPriceSpan">Total: 0 MZN</div>
+        <button id="sendOrderBtn" class="send-order"><i class="fab fa-whatsapp"></i> Enviar pedido pelo WhatsApp</button>
+    </div>
+    <footer>© Azgoooo Comer • Preços em Metical • Gerência protegida</footer>
+</div>
+
+<!-- MODAL DE EDIÇÃO (Admin) -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3><i class="fas fa-pizza-slice"></i> Editar Produto</h3>
+        <input type="text" id="editProdName" placeholder="Nome do produto">
+        <input type="number" id="editProdPrice" placeholder="Preço (MZN)">
+        <div style="display:flex; gap:8px; margin:5px 0;">
+            <button id="changePhotoBtn"><i class="fas fa-images"></i> Buscar foto da galeria</button>
+            <button id="editExistingPhotoBtn"><i class="fas fa-sync-alt"></i> Editar foto atual</button>
+        </div>
+        <p style="font-size:12px; color:gray;">*A foto será atualizada via URL ou galeria do dispositivo</p>
+        <div class="flex-btns">
+            <button id="saveProductChanges">💾 Salvar alterações</button>
+            <button id="closeModalBtn" class="close-modal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- BASE DE DADOS INICIAL (produtos editáveis) ----------
+    let products = [
+        { id: 1, name: "Hambúrguer Artesanal", price: 250, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=250&fit=crop" },
+        { id: 2, name: "Batata Frita Supreme", price: 120, image: "https://images.unsplash.com/photo-1630384060421-cf20c0e5b5c9?w=400&h=250&fit=crop" },
+        { id: 3, name: "Frango Crocante", price: 280, image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400&h=250&fit=crop" },
+        { id: 4, name: "Pizza Margherita (fatia)", price: 190, image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=250&fit=crop" },
+        { id: 5, name: "Milkshake Oreo", price: 180, image: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400&h=250&fit=crop" }
+    ];
+
+    let cart = []; // cada item: { id, name, price, quantity? usaremos só cópia com quantidade opcional, mas pedido simples: permitir remoção individual por item (se adicionar múltiplas vezes mostra separado? melhor repetir igual carrinho simples)
+    // Para comportar remoção individual exata e alteração, vamos usar carrinho baseado em objetos únicos por add, mas com quantidade simplificada: cada clique adiciona 1 unidade do mesmo produto.
+    // controle: store items com productId, nome, preço e id único do carrinho (timestamp)
+    let cartItemsList = []; // { cartId, productId, name, price }
+
+    // senha admin definida
+    const ADMIN_PASSWORD = "8888";
+    let currentEditingProduct = null;   // guarda produto em edição
+
+    // Elementos
+    const productsGrid = document.getElementById("productsGrid");
+    const cartContainer = document.getElementById("cartItemsContainer");
+    const totalSpan = document.getElementById("totalPriceSpan");
+    const sendOrderBtn = document.getElementById("sendOrderBtn");
+    const customerPhoneInput = document.getElementById("customerPhone");
+    const orderObsText = document.getElementById("orderObservations");
+
+    // Modal elements
+    const editModal = document.getElementById("editModal");
+    const editProdName = document.getElementById("editProdName");
+    const editProdPrice = document.getElementById("editProdPrice");
+    const saveBtn = document.getElementById("saveProductChanges");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const changePhotoBtn = document.getElementById("changePhotoBtn");
+    const editExistingPhotoBtn = document.getElementById("editExistingPhotoBtn");
+
+    let tempSelectedProductId = null;
+    let tempNewImageUrl = null;  // guarda URL temporária até salvar
+
+    // Funções auxiliares: renderizar produtos, carrinho, total
+    function renderProducts() {
+        productsGrid.innerHTML = "";
+        products.forEach(prod => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+                <img src="${prod.image}" class="card-img" alt="${prod.name}" data-id="${prod.id}" data-imgflag="1">
+                <div class="card-info">
+                    <div class="product-name">
+                        <span>${escapeHtml(prod.name)}</span>
+                        <span class="product-price">${prod.price} MZN</span>
+                    </div>
+                    <div class="edit-row">
+                        <button class="edit-product-btn" data-id="${prod.id}"><i class="fas fa-pen"></i> Editar</button>
+                    </div>
+                    <button class="btn-add-cart" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}">
+                        <i class="fas fa-cart-plus"></i> Adicionar ao carrinho
+                    </button>
+                </div>
+            `;
+            // Evento clique na imagem para editar foto (admin também por senha, mas antes verificar senha? Vamos permitir apenas se tiver autorização modal, porém abrirá modal que pedirá senha previamente? Melhor: qualquer clique em editar produto pede senha)
+            const imgElement = card.querySelector(".card-img");
+            imgElement.addEventListener("click", (e) => {
+                e.stopPropagation();
+                requestAdminEdit(prod.id);
+            });
+            const editBtn = card.querySelector(".edit-product-btn");
+            editBtn.addEventListener("click", () => requestAdminEdit(prod.id));
+            const addBtn = card.querySelector(".btn-add-cart");
+            addBtn.addEventListener("click", (e) => {
+                const id = parseInt(addBtn.dataset.id);
+                const name = addBtn.dataset.name;
+                const price = parseInt(addBtn.dataset.price);
+                addToCart(id, name, price);
+            });
+            productsGrid.appendChild(card);
+        });
+    }
+
+    function requestAdminEdit(productId) {
+        const password = prompt("🔐 Área restrita. Digite a senha do gerente para editar produto:");
+        if (password === ADMIN_PASSWORD) {
+            openEditProductModal(productId);
+        } else if (password !== null) {
+            alert("Senha incorreta! Você não tem permissão para editar.");
+        }
+    }
+
+    function openEditProductModal(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        currentEditingProduct = product;
+        tempSelectedProductId = productId;
+        editProdName.value = product.name;
+        editProdPrice.value = product.price;
+        tempNewImageUrl = product.image; // imagem atual
+        editModal.style.display = "flex";
+    }
+
+    // função para buscar imagem da galeria (file input)
+    function getImageFromGallery(callback) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    callback(ev.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                callback(null);
+            }
+        };
+        input.click();
+    }
+
+    changePhotoBtn.addEventListener("click", () => {
+        getImageFromGallery((url) => {
+            if (url) {
+                tempNewImageUrl = url;
+                alert("Nova foto carregada da galeria! Lembre-se de salvar.");
+            }
+        });
+    });
+
+    editExistingPhotoBtn.addEventListener("click", () => {
+        getImageFromGallery((url) => {
+            if (url) {
+                tempNewImageUrl = url;
+                alert("Foto editada/substituída com sucesso (pré-visualização). Confirme salvar.");
+            }
+        });
+    });
+
+    saveBtn.addEventListener("click", () => {
+        if (currentEditingProduct) {
+            const newName = editProdName.value.trim();
+            const newPrice = parseFloat(editProdPrice.value);
+            if (newName === "") {
+                alert("Nome inválido");
+                return;
+            }
+            if (isNaN(newPrice) || newPrice <= 0) {
+                alert("Preço inválido (metical)");
+                return;
+            }
+            currentEditingProduct.name = newName;
+            currentEditingProduct.price = newPrice;
+            if (tempNewImageUrl) {
+                currentEditingProduct.image = tempNewImageUrl;
+            }
+            renderProducts();
+            editModal.style.display = "none";
+            alert("Produto atualizado com sucesso!");
+            currentEditingProduct = null;
+        }
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+        editModal.style.display = "none";
+        currentEditingProduct = null;
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === editModal) editModal.style.display = "none";
+    });
+
+    function addToCart(id, name, price) {
+        const newCartId = Date.now() + Math.random() * 1000;
+        cartItemsList.push({ cartId: newCartId, productId: id, name: name, price: price });
+        renderCart();
+    }
+
+    function removeCartItem(cartId) {
+        cartItemsList = cartItemsList.filter(item => item.cartId !== cartId);
+        renderCart();
+    }
+
+    function renderCart() {
+        if (!cartContainer) return;
+        if (cartItemsList.length === 0) {
+            cartContainer.innerHTML = '<div class="empty-cart"><i class="fas fa-bag-shopping"></i> Seu carrinho está vazio</div>';
+            totalSpan.innerText = "Total: 0 MZN";
+            return;
+        }
+        let html = "";
+        let total = 0;
+        cartItemsList.forEach(item => {
+            total += item.price;
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${escapeHtml(item.name)}</div>
+                        <div class="cart-item-price">${item.price} MZN</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="remove-item" data-cartid="${item.cartId}"><i class="fas fa-trash-alt"></i> Remover</button>
+                    </div>
+                </div>
+            `;
+        });
+        cartContainer.innerHTML = html;
+        totalSpan.innerText = `Total: ${total} MZN`;
+        // Adicionar eventos de remoção
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const cartId = parseFloat(btn.dataset.cartid);
+                removeCartItem(cartId);
+            });
+        });
+    }
+
+    // enviar pedido via WhatsApp
+    sendOrderBtn.addEventListener("click", () => {
+        const customerPhone = customerPhoneInput.value.trim();
+        if (customerPhone === "") {
+            alert("⚠️ Por favor, digite o seu número de telemóvel para continuar.");
+            return;
+        }
+        if (cartItemsList.length === 0) {
+            alert("Seu carrinho está vazio! Adicione itens antes de enviar.");
+            return;
+        }
+        // montar mensagem
+        let orderDetails = "*🍔 AZGOOOO COMER - NOVO PEDIDO*%0A";
+        orderDetails += `👤 *Cliente:* ${customerPhone}%0A`;
+        orderDetails += `📋 *Itens:*%0A`;
+        cartItemsList.forEach((item, idx) => {
+            orderDetails += `${idx+1}. ${item.name} - ${item.price} MZN%0A`;
+        });
+        let total = cartItemsList.reduce((acc, i) => acc + i.price, 0);
+        orderDetails += `%0A💰 *Total:* ${total} MZN%0A`;
+        const obs = orderObsText.value.trim();
+        if (obs) {
+            orderDetails += `📝 *Observações:* ${obs}%0A`;
+        }
+        orderDetails += `📍 *Status:* Aguardando confirmação.`;
+        const whatsappNumber = "845202942"; // fixo conforme solicitado
+        const url = `https://wa.me/${whatsappNumber}?text=${orderDetails}`;
+        window.open(url, '_blank');
+    });
+
+    // Escopo: funções de escape
+    function escapeHtml(str) {
+        if(!str) return "";
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // inicialização e também garante que o admin pode editar produtos e fotos
+    // Botão especial admin no header
+    const adminModeBtn = document.getElementById("adminModeBtn");
+    adminModeBtn.addEventListener("click", () => {
+        const pwd = prompt("Digite a senha de administrador (apenas gerente):");
+        if (pwd === ADMIN_PASSWORD) {
+            alert("Modo editor ativo. Clique em qualquer botão 'Editar' ou na foto do produto para alterar.");
+            // Adicionalmente poderiamos destacar, mas funcionalidade já disponível após senha.
+        } else if(pwd !== null) alert("Acesso negado! Você não tem permissão.");
+    });
+
+    // pequeno bonus: implementar recurso de "se quiser trocar o pedido" já temos botão remoção individual.
+    renderProducts();
+    renderCart();
+
+    // Prevenir que números sejam inválidos, e exibir info
+    console.log("Aplicativo Azgoooo Comer carregado, use senha 8888 para editar produtos, fotos e preços. Busca na galeria funciona.");
+</script>
+</body>
+</html>
